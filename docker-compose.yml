@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nilesh9/productivity-app:nginx-latest
+    restart: always
+    depends_on:
+      - client
+      - server
+    ports:
+      - "80:80"
+
+  client:
+    image: nilesh9/productivity-app:client-latest
+    environment:
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+
+  server:
+    image: nilesh9/productivity-app:server-latest
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - TOKEN_KEY=${TOKEN_KEY}
+      - EMAIL=${EMAIL}
+      - PASSWORD=${PASSWORD}
