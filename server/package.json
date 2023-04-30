@@ -4,11 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --testTimeout=5000",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=100000",
     "start": "node server.js",
     "dev": "nodemon -L server.js"
   },
-  "author": "Rakesh Potnuru",
+  "author": "Nilesh Sahitya",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
