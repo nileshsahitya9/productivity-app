@@ -39,5 +39,14 @@ pipeline {
 		sh 'docker build -t nilesh9/productivity-app:server-latest server'
 	}
 }
+stage('Push Images to DockerHub') {
+	steps {
+		withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+			sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+			sh 'docker push nilesh9/productivity-app:client-latest'
+			sh 'docker push nilesh9/productivity-app:server-latest'
+		}
+	}
+}
 }
 }
