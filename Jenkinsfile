@@ -33,5 +33,11 @@ pipeline {
 		  }
 	  }
   }
+  stage('Build Images') {
+	steps {
+		sh 'docker build -t nilesh9/productivity-app:client-latest client'
+		sh 'docker build -t nilesh9/productivity-app:server-latest server'
+	}
+}
 }
 }
