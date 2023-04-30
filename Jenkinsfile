@@ -20,7 +20,6 @@ pipeline {
 		    }
 	    }
     }
-	}
 
     stage('Server Tests') {
 	    steps {
