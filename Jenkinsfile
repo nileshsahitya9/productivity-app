@@ -2,6 +2,8 @@ pipeline {
   agent any
   environment {
 	MONGODB_URI = credentials('mongodb-uri')
+  AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+  AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
 	TOKEN_KEY = credentials('token-key')
 	EMAIL = credentials('email')
 	PASSWORD = credentials('password')
@@ -48,5 +50,19 @@ stage('Push Images to DockerHub') {
 		}
 	}
 }
+stage('Integrate Jenkins with EKS Cluster and Deploy App') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    sh """
+                    aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                    aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                    aws configure set region ap-south-1
+                    """
+                    sh 'aws eks update-kubeconfig --name my-eks-cluster --region ap-south-1'
+                    sh "kubectl apply -f eks_deploy_k8.yaml"
+
+                }
+        }
+    }
 }
 }

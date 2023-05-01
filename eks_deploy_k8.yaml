@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: productivity-app
+  name: productivity-app
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: productivity-app
+  template:
+    metadata:
+      labels:
+        app: productivity-app
+    spec:
+      containers:
+      - name: my-productivity-app
+        image: nilesh9/productivity-app
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+# service type loadbalancer       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: productivity-app
+    k8s-app: productivity-app
+  name: productivity-app
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  type: LoadBalancer
+  selector:
+    app: productivity-app
