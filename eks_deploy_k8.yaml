@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-productivity-app
-        image: nilesh9/productivity-app
+        image: nilesh9/productivity-app:client-latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
